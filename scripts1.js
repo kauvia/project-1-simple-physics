@@ -8,19 +8,10 @@ function startAnimation() {
         mouseY=null,
         mouseX=null,
         rect=null,
-        gravity=5,
         mouseDown = false,
-        mouseUp = false;
-
-    let timestep = 1000 / 60,
-        lastFrameTimeMs = 0,
-        numUpdateSteps = 0,
-        delta = 0,
         fps = 30,
-        framesThisSecond = 0,
-        lastFPSUpdate = 0,
         boxVelocity = 0;
-        boxAcceleration = 0.00008;
+        boxAcceleration = 0.5;
 
 
 
@@ -56,36 +47,17 @@ function startAnimation() {
     }
 
     function collisonWall() {
-        if (boxPosY >= 750 && boxVelocity >= 0.005 || boxPosY <= 0) {
+        if (boxPosY >= 750 || boxPosY <= 0) {
             boxVelocity = -boxVelocity ;
         };
    }
 
-   function breakWall() {
-    if (boxPosY >= 900 || boxPosY <= -5){
-        boxPosY = 300;
-        boxPosX = 300;
-    }
-    else if (boxPosY >= 750 && boxVelocity >= 0.0005 || boxPosY <= -100) {
-        boxAcceleration = 0;
-        boxVelocity = 0;
-    }
-    else if (boxPosY >=750 && boxVelocity == 0) {
-        boxVelocity = 0;
-        boxAcceleration = 0;
-    }
-    else {
-        boxAcceleration =0.00008;
-    }
-   }
+
 
 
  
     //main game loop functions
 
-    function panic () {
-        delta = 0;
-    }
 
     function draw () {
         box.style.top = boxPosY + 'px';
@@ -94,39 +66,23 @@ function startAnimation() {
     }
     function update() {
 
-        boxVelocity = boxVelocity + boxAcceleration * delta;
-        boxPosY = boxPosY + boxVelocity * delta;
+        boxVelocity = boxVelocity + boxAcceleration;
+        boxPosY = boxPosY + boxVelocity;
         dragBox();
         collisonWall();
-        breakWall();
+
 
 
 
     }
-    function mainLoop (timestamp) {
-        delta += timestamp - lastFrameTimeMs;
-        lastFrameTimeMs = timestamp;
+    function mainLoop () {
 
-        if (timestamp > lastFPSUpdate + 1000) {
-            fps = 0.25 * framesThisSecond + (1 - 0.25) * fps;
-            lastFPSUpdate = timestamp;
-            framesThisSecond = 0;
-        }
-        framesThisSecond++;
-
-        while (delta >= timestep) {
-            update ();
-            delta -= timestep;
-            if (++numUpdateSteps >= 240) {
-                panic();
-                break;
-            }
-        };
+        update ();
         draw ();
-        console.log("logging");
-        console.log (boxPosY);
-        console.log ("boxvelocity = ", boxVelocity);
-        console.log ("boxacceleration = ", boxAcceleration);
+//       console.log("logging");
+//       console.log (boxPosY);
+//        console.log ("boxvelocity = ", boxVelocity);
+//        console.log ("boxacceleration = ", boxAcceleration);
 //        console.log ("delta = ", delta);
 //        console.log ("lastframetimems = ", lastFrameTimeMs);
 //        console.log ("timestamp = ", timestamp);
