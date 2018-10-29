@@ -8,9 +8,8 @@ function startAnimation() {
         mouseY=null,
         mouseX=null,
         rect=null,
-        gravity=5,
         mouseDown = false,
-        mouseUp = false;
+
 
     let timestep = 1000 / 60,
         lastFrameTimeMs = 0,
@@ -48,16 +47,17 @@ function startAnimation() {
             boxPosX = mouseX-10;
             boxPosY = mouseY-15;
             boxVelocity = 0;
+            box.style.background = 'pink'; 
         } else if (mouseDown === false) {
             boxPosX = boxPosX;
             boxPosY = boxPosY;
-            
+            box.style.background = 'red'; 
         }
     }
 
     function collisonWall() {
         if (boxPosY >= 750 && boxVelocity >= 0.005 || boxPosY <= 0) {
-            boxVelocity = -boxVelocity ;
+            boxVelocity = -boxVelocity * .9 ;
         };
    }
 
